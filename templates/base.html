@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arena-Match</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="logo">
+      <span class="logo-icon">⚔</span>
+      <span>Arena-Match</span>
+    </div>
+    <nav class="nav">
+      <a href="/" class="nav-item">🏠 Dashboard</a>
+      <a href="/usuarios" class="nav-item">👤 Usuarios</a>
+      <a href="/equipos" class="nav-item">🛡 Equipos</a>
+      <a href="/torneos" class="nav-item">🏆 Torneos</a>
+      <a href="/inscripciones" class="nav-item">📋 Inscripciones</a>
+    </nav>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div class="page-title">{% block titulo %}{% endblock %}</div>
+      {% block boton %}{% endblock %}
+    </header>
+    <div class="content">
+      {% block contenido %}{% endblock %}
+    </div>
+  </main>
+</body>
+</html>

@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Torneos{% endblock %}
+
+{% block boton %}
+<button class="btn-primary" onclick="document.getElementById('modalTorneo').style.display='flex'">+ Nuevo Torneo</button>
+{% endblock %}
+
+{% block contenido %}
+<div class="card">
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Videojuego</th>
+        <th>Fecha Inicio</th>
+        <th>Fecha Fin</th>
+        <th>Prize Pool</th>
+        <th>Costo</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for t in torneos %}
+      <tr>
+        <td>{{ t[0] }}</td>
+        <td>{{ t[1] }}</td>
+        <td>{{ t[2] }}</td>
+        <td>{{ t[3] }}</td>
+        <td>{{ t[4] }}</td>
+        <td>${{ t[5] }}</td>
+        <td>${{ t[6] }}</td>
+        <td><span class="badge badge-green">{{ t[7] }}</span></td>
+        <td>
+          <a href="/torneos/eliminar/{{ t[0] }}" onclick="return confirm('¿Eliminar?')" class="btn-icon danger">✕</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<div id="modalTorneo" class="modal-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>Nuevo Torneo</h2>
+      <button class="modal-close" onclick="document.getElementById('modalTorneo').style.display='none'">✕</button>
+    </div>
+    <form method="POST" action="/torneos/crear">
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Nombre</label>
+          <input class="form-input" type="text" name="nombre" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Videojuego</label>
+          <select class="form-select" name="videojuego">
+            <option value="League of Legends">League of Legends</option>
+            <option value="Valorant">Valorant</option>
+            <option value="EA Sports FC">EA Sports FC</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Fecha Inicio</label>
+          <input class="form-input" type="date" name="fecha_inicio" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Fecha Fin</label>
+          <input class="form-input" type="date" name="fecha_fin" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Prize Pool ($)</label>
+          <input class="form-input" type="number" name="prize_pool" step="0.01" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Costo Inscripción ($)</label>
+          <input class="form-input" type="number" name="costo" step="0.01" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Estado</label>
+          <select class="form-select" name="estado">
+            <option value="Planificacion">Planificación</option>
+            <option value="Inscripciones Abiertas">Inscripciones Abiertas</option>
+            <option value="En Curso">En Curso</option>
+            <option value="Finalizado">Finalizado</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-ghost" onclick="document.getElementById('modalTorneo').style.display='none'">Cancelar</button>
+        <button type="submit" class="btn-primary">Guardar</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

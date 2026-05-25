@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Dashboard{% endblock %}
+
+{% block contenido %}
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-label">Torneos Activos</div>
+    <div class="stat-value">🏆</div>
+    <div class="stat-sub">Arena-Match</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">Equipos Registrados</div>
+    <div class="stat-value">🛡</div>
+    <div class="stat-sub">Compitiendo</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">Jugadores</div>
+    <div class="stat-value">👤</div>
+    <div class="stat-sub">En plataforma</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">Inscripciones</div>
+    <div class="stat-value">📋</div>
+    <div class="stat-sub">Total</div>
+  </div>
+</div>
+
+<div class="dashboard-grid">
+  <div class="card">
+    <div class="card-header">Bienvenido a Arena-Match</div>
+    <div style="padding:20px;color:#8888aa;">
+      Plataforma de torneos de E-Sports latinoamericana. 
+      Gestiona usuarios, equipos, torneos e inscripciones desde este panel.
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header">Videojuegos Disponibles</div>
+    <div style="padding:20px;display:flex;flex-direction:column;gap:10px;">
+      <div class="list-item">
+        <span class="list-item-name">🎮 League of Legends</span>
+      </div>
+      <div class="list-item">
+        <span class="list-item-name">🎯 Valorant</span>
+      </div>
+      <div class="list-item">
+        <span class="list-item-name">⚽ EA Sports FC</span>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Equipos{% endblock %}
+
+{% block boton %}
+<button class="btn-primary" onclick="document.getElementById('modalEquipo').style.display='flex'">+ Nuevo Equipo</button>
+{% endblock %}
+
+{% block contenido %}
+<div class="card">
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Logo URL</th>
+        <th>Fecha Creación</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for e in equipos %}
+      <tr>
+        <td>{{ e[0] }}</td>
+        <td>{{ e[1] }}</td>
+        <td>{{ e[2] }}</td>
+        <td>{{ e[3] }}</td>
+        <td>
+          <a href="/equipos/eliminar/{{ e[0] }}" onclick="return confirm('¿Eliminar?')" class="btn-icon danger">✕</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<div id="modalEquipo" class="modal-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>Nuevo Equipo</h2>
+      <button class="modal-close" onclick="document.getElementById('modalEquipo').style.display='none'">✕</button>
+    </div>
+    <form method="POST" action="/equipos/crear">
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Nombre del Equipo</label>
+          <input class="form-input" type="text" name="nombre" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Logo URL</label>
+          <input class="form-input" type="text" name="logo" placeholder="https://...">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-ghost" onclick="document.getElementById('modalEquipo').style.display='none'">Cancelar</button>
+        <button type="submit" class="btn-primary">Guardar</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

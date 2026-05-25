@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Inscripciones{% endblock %}
+
+{% block boton %}
+<button class="btn-primary" onclick="document.getElementById('modalInscripcion').style.display='flex'">+ Nueva Inscripción</button>
+{% endblock %}
+
+{% block contenido %}
+<div class="card">
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Torneo</th>
+        <th>Equipo</th>
+        <th>Fecha</th>
+        <th>Monto</th>
+        <th>Estado</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in inscripciones %}
+      <tr>
+        <td>{{ i[0] }}</td>
+        <td>{{ i[1] }}</td>
+        <td>{{ i[2] }}</td>
+        <td>{{ i[3] }}</td>
+        <td>${{ i[4] }}</td>
+        <td>
+          {% if i[5] == 'Pagado' %}
+            <span class="badge badge-green">{{ i[5] }}</span>
+          {% elif i[5] == 'Pendiente' %}
+            <span class="badge badge-yellow">{{ i[5] }}</span>
+          {% else %}
+            <span class="badge badge-red">{{ i[5] }}</span>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<div id="modalInscripcion" class="modal-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>Nueva Inscripción</h2>
+      <button class="modal-close" onclick="document.getElementById('modalInscripcion').style.display='none'">✕</button>
+    </div>
+    <form method="POST" action="/inscripciones/crear">
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Torneo</label>
+          <select class="form-select" name="torneo">
+            {% for t in torneos %}
+            <option value="{{ t[0] }}">{{ t[1] }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Equipo</label>
+          <select class="form-select" name="equipo">
+            {% for e in equipos %}
+            <option value="{{ e[0] }}">{{ e[1] }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Monto Pagado ($)</label>
+          <input class="form-input" type="number" name="monto" step="0.01" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Estado</label>
+          <select class="form-select" name="estado">
+            <option value="Pendiente">Pendiente</option>
+            <option value="Pagado">Pagado</option>
+            <option value="Rechazado">Rechazado</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-ghost" onclick="document.getElementById('modalInscripcion').style.display='none'">Cancelar</button>
+        <button type="submit" class="btn-primary">Guardar</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
