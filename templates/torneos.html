@@ -8,6 +8,8 @@
 
 {% block contenido %}
 <div class="card">
+  {% if torneos %}
+  <div class="table-wrap">
   <table>
     <thead>
       <tr>
@@ -32,7 +34,17 @@
         <td>{{ t[4] }}</td>
         <td>${{ t[5] }}</td>
         <td>${{ t[6] }}</td>
-        <td><span class="badge badge-green">{{ t[7] }}</span></td>
+        <td>
+          {% if t[7] == 'En Curso' %}
+            <span class="badge badge-green">{{ t[7] }}</span>
+          {% elif t[7] == 'Inscripciones Abiertas' %}
+            <span class="badge badge-blue">{{ t[7] }}</span>
+          {% elif t[7] == 'Finalizado' %}
+            <span class="badge badge-red">{{ t[7] }}</span>
+          {% else %}
+            <span class="badge badge-yellow">{{ t[7] }}</span>
+          {% endif %}
+        </td>
         <td>
           <a href="/torneos/eliminar/{{ t[0] }}" onclick="return confirm('¿Eliminar?')" class="btn-icon danger">✕</a>
         </td>
@@ -40,6 +52,13 @@
       {% endfor %}
     </tbody>
   </table>
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <div class="empty-state-icon">🏆</div>
+    <div class="empty-state-text">Todavía no hay torneos registrados.</div>
+  </div>
+  {% endif %}
 </div>
 
 <div id="modalTorneo" class="modal-overlay">

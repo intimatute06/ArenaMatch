@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request, jsonify, redirect, url_for
+from flask import Flask, render_template, request, jsonify, redirect, url_for, flash
 import pyodbc
 
 app = Flask(__name__)
+app.secret_key = 'arena-match-dev-secret'
 
 
 def get_db():
@@ -17,7 +18,24 @@ def get_db():
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute('SELECT COUNT(*) FROM Torneo')
+    total_torneos = cursor.fetchone()[0]
+    cursor.execute('SELECT COUNT(*) FROM Equipo')
+    total_equipos = cursor.fetchone()[0]
+    cursor.execute('SELECT COUNT(*) FROM Usuario')
+    total_usuarios = cursor.fetchone()[0]
+    cursor.execute('SELECT COUNT(*) FROM Inscripcion')
+    total_inscripciones = cursor.fetchone()[0]
+    conn.close()
+    return render_template(
+        'index.html',
+        total_torneos=total_torneos,
+        total_equipos=total_equipos,
+        total_usuarios=total_usuarios,
+        total_inscripciones=total_inscripciones,
+    )
 
 
 
@@ -47,9 +65,14 @@ def crear_usuario():
 def eliminar_usuario(id):
     conn = get_db()
     cursor = conn.cursor()
-    cursor.execute('DELETE FROM Usuario WHERE ID_Usuario = ?', id)
-    conn.commit()
-    conn.close()
+    try:
+        cursor.execute('DELETE FROM Jugador WHERE ID_Usuario = ?', id)
+        cursor.execute('DELETE FROM Usuario WHERE ID_Usuario = ?', id)
+        conn.commit()
+    except (pyodbc.IntegrityError, pyodbc.ProgrammingError) as e:
+        flash(f'Error al eliminar el usuario: {e}')
+    finally:
+        conn.close()
     return redirect(url_for('usuarios'))
 
 
@@ -80,9 +103,15 @@ def crear_equipo():
 def eliminar_equipo(id):
     conn = get_db()
     cursor = conn.cursor()
-    cursor.execute('DELETE FROM Equipo WHERE ID_Equipo = ?', id)
-    conn.commit()
-    conn.close()
+    try:
+        cursor.execute('DELETE FROM Jugador WHERE ID_Equipo = ?', id)
+        cursor.execute('DELETE FROM Inscripcion WHERE ID_Equipo = ?', id)
+        cursor.execute('DELETE FROM Equipo WHERE ID_Equipo = ?', id)
+        conn.commit()
+    except (pyodbc.IntegrityError, pyodbc.ProgrammingError) as e:
+        flash(f'Error al eliminar el equipo: {e}')
+    finally:
+        conn.close()
     return redirect(url_for('equipos'))
 
 
@@ -113,9 +142,15 @@ def crear_torneo():
 def eliminar_torneo(id):
     conn = get_db()
     cursor = conn.cursor()
-    cursor.execute('DELETE FROM Torneo WHERE ID_Torneo = ?', id)
-    conn.commit()
-    conn.close()
+    try:
+        cursor.execute('DELETE FROM Partida WHERE ID_Torneo = ?', id)
+        cursor.execute('DELETE FROM Inscripcion WHERE ID_Torneo = ?', id)
+        cursor.execute('DELETE FROM Torneo WHERE ID_Torneo = ?', id)
+        conn.commit()
+    except (pyodbc.IntegrityError, pyodbc.ProgrammingError) as e:
+        flash(f'Error al eliminar el torneo: {e}')
+    finally:
+        conn.close()
     return redirect(url_for('torneos'))
 
 
@@ -143,12 +178,16 @@ def crear_inscripcion():
     data = request.form
     conn = get_db()
     cursor = conn.cursor()
-    cursor.execute(
-        'INSERT INTO Inscripcion (ID_Torneo, ID_Equipo, Monto_Pagado, Estado) VALUES (?, ?, ?, ?)',
-        data['torneo'], data['equipo'], data['monto'], data['estado']
-    )
-    conn.commit()
-    conn.close()
+    try:
+        cursor.execute(
+            'INSERT INTO Inscripcion (ID_Torneo, ID_Equipo, Monto_Pagado, Estado) VALUES (?, ?, ?, ?)',
+            data['torneo'], data['equipo'], data['monto'], data['estado']
+        )
+        conn.commit()
+    except pyodbc.Error as e:
+        flash(f'Error al crear la inscripción: {e}')
+    finally:
+        conn.close()
     return redirect(url_for('inscripciones'))
 
 if __name__ == '__main__':

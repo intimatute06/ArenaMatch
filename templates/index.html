@@ -5,38 +5,50 @@
 {% block contenido %}
 <div class="stats-grid">
   <div class="stat-card">
-    <div class="stat-label">Torneos Activos</div>
-    <div class="stat-value">🏆</div>
-    <div class="stat-sub">Arena-Match</div>
+    <div class="stat-card-top">
+      <div class="stat-label">Torneos</div>
+      <div class="stat-icon">🏆</div>
+    </div>
+    <div class="stat-value">{{ total_torneos }}</div>
+    <div class="stat-sub">Registrados en Arena-Match</div>
   </div>
   <div class="stat-card">
-    <div class="stat-label">Equipos Registrados</div>
-    <div class="stat-value">🛡</div>
+    <div class="stat-card-top">
+      <div class="stat-label">Equipos</div>
+      <div class="stat-icon">🛡</div>
+    </div>
+    <div class="stat-value">{{ total_equipos }}</div>
     <div class="stat-sub">Compitiendo</div>
   </div>
   <div class="stat-card">
-    <div class="stat-label">Jugadores</div>
-    <div class="stat-value">👤</div>
+    <div class="stat-card-top">
+      <div class="stat-label">Jugadores</div>
+      <div class="stat-icon">👤</div>
+    </div>
+    <div class="stat-value">{{ total_usuarios }}</div>
     <div class="stat-sub">En plataforma</div>
   </div>
   <div class="stat-card">
-    <div class="stat-label">Inscripciones</div>
-    <div class="stat-value">📋</div>
-    <div class="stat-sub">Total</div>
+    <div class="stat-card-top">
+      <div class="stat-label">Inscripciones</div>
+      <div class="stat-icon">📋</div>
+    </div>
+    <div class="stat-value">{{ total_inscripciones }}</div>
+    <div class="stat-sub">Total acumulado</div>
   </div>
 </div>
 
 <div class="dashboard-grid">
   <div class="card">
     <div class="card-header">Bienvenido a Arena-Match</div>
-    <div style="padding:20px;color:#8888aa;">
-      Plataforma de torneos de E-Sports latinoamericana. 
+    <div style="padding:20px;color:var(--text2);line-height:1.6;">
+      Plataforma de torneos de E-Sports latinoamericana.
       Gestiona usuarios, equipos, torneos e inscripciones desde este panel.
     </div>
   </div>
   <div class="card">
     <div class="card-header">Videojuegos Disponibles</div>
-    <div style="padding:20px;display:flex;flex-direction:column;gap:10px;">
+    <div style="padding:8px 0;">
       <div class="list-item">
         <span class="list-item-name">🎮 League of Legends</span>
       </div>

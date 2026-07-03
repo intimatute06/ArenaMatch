@@ -8,6 +8,8 @@
 
 {% block contenido %}
 <div class="card">
+  {% if equipos %}
+  <div class="table-wrap">
   <table>
     <thead>
       <tr>
@@ -32,6 +34,13 @@
       {% endfor %}
     </tbody>
   </table>
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <div class="empty-state-icon">🛡</div>
+    <div class="empty-state-text">Todavía no hay equipos registrados.</div>
+  </div>
+  {% endif %}
 </div>
 
 <div id="modalEquipo" class="modal-overlay">

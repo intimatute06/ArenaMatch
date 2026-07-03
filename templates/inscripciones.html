@@ -8,6 +8,8 @@
 
 {% block contenido %}
 <div class="card">
+  {% if inscripciones %}
+  <div class="table-wrap">
   <table>
     <thead>
       <tr>
@@ -40,6 +42,13 @@
       {% endfor %}
     </tbody>
   </table>
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <div class="empty-state-icon">📋</div>
+    <div class="empty-state-text">Todavía no hay inscripciones registradas.</div>
+  </div>
+  {% endif %}
 </div>
 
 <div id="modalInscripcion" class="modal-overlay">

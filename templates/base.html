@@ -13,12 +13,13 @@
       <span>Arena-Match</span>
     </div>
     <nav class="nav">
-      <a href="/" class="nav-item">🏠 Dashboard</a>
-      <a href="/usuarios" class="nav-item">👤 Usuarios</a>
-      <a href="/equipos" class="nav-item">🛡 Equipos</a>
-      <a href="/torneos" class="nav-item">🏆 Torneos</a>
-      <a href="/inscripciones" class="nav-item">📋 Inscripciones</a>
+      <a href="/" class="nav-item{% if request.path == '/' %} active{% endif %}"><span>🏠</span><span>Dashboard</span></a>
+      <a href="/usuarios" class="nav-item{% if request.path.startswith('/usuarios') %} active{% endif %}"><span>👤</span><span>Usuarios</span></a>
+      <a href="/equipos" class="nav-item{% if request.path.startswith('/equipos') %} active{% endif %}"><span>🛡</span><span>Equipos</span></a>
+      <a href="/torneos" class="nav-item{% if request.path.startswith('/torneos') %} active{% endif %}"><span>🏆</span><span>Torneos</span></a>
+      <a href="/inscripciones" class="nav-item{% if request.path.startswith('/inscripciones') %} active{% endif %}"><span>📋</span><span>Inscripciones</span></a>
     </nav>
+    <div class="sidebar-footer">Arena-Match © 2026</div>
   </aside>
 
   <main class="main">
@@ -27,6 +28,13 @@
       {% block boton %}{% endblock %}
     </header>
     <div class="content">
+      {% with mensajes = get_flashed_messages() %}
+        {% if mensajes %}
+          {% for m in mensajes %}
+            <div class="flash-error">{{ m }}</div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
       {% block contenido %}{% endblock %}
     </div>
   </main>

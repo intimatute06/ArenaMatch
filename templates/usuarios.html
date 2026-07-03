@@ -8,6 +8,8 @@
 
 {% block contenido %}
 <div class="card">
+  {% if usuarios %}
+  <div class="table-wrap">
   <table>
     <thead>
       <tr>
@@ -34,6 +36,13 @@
       {% endfor %}
     </tbody>
   </table>
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <div class="empty-state-icon">👤</div>
+    <div class="empty-state-text">Todavía no hay usuarios registrados.</div>
+  </div>
+  {% endif %}
 </div>
 
 <div id="modalUsuario" class="modal-overlay">
